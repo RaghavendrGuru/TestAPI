@@ -1,11 +1,7 @@
 package com.api.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,40 +10,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.dto.UserDto;
-import com.api.dto.UserResponseDto;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/webhook")
-@CrossOrigin(allowedHeaders = { "*", "*/" }, origins = { "*", "*/" })
+@CrossOrigin(origins = "*", allowedHeaders = "*") 
 public class TestAPIController {
-	
-private static final Logger logger = LoggerFactory.getLogger(TestAPIController.class);
 	
 	//http://localhost:8085/testapi/user/
 	//https://testapi-production-ef5f.up.railway.app/testapi/webhook/user
+	@PostMapping("/user")
+	public ResponseEntity<String> receiveUser(@RequestBody Map<String, Object> data) {
+	    System.out.println("Received webhook: " + data);
+	    return ResponseEntity.ok("Received");
+	}
+	
 	@GetMapping("/user")
-	public ResponseEntity<UserResponseDto> getAge() {
-		logger.info("Entered into OptionList method in controller");
-		List<UserDto> userDtoList = new ArrayList<>();
-		UserResponseDto userResponseDto = new UserResponseDto();
-		
-		UserDto userDtoManoj = new UserDto();
-		userDtoManoj.setName("Manoj");
-		userDtoManoj.setAge(28);
-		
-		UserDto userDtoLokre = new UserDto();
-		userDtoLokre.setName("Lokre");
-		userDtoLokre.setAge(35);
-		
-		userDtoList.add(userDtoManoj);
-		userDtoList.add(userDtoLokre);
-		
-		userResponseDto.setStatusCode(HttpStatus.OK.value());
-		userResponseDto.setUserDtoList(userDtoList);
-		return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
+	public String testUserGet() {
+	    return "Webhook GET working!";
 	}
 	
 	//http://localhost:8085/testapi/webhook
