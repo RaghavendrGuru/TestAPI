@@ -27,7 +27,8 @@ public class TestAPIController {
 private static final Logger logger = LoggerFactory.getLogger(TestAPIController.class);
 	
 	//http://localhost:8085/testapi/user/
-	@GetMapping
+	//https://testapi-production-ef5f.up.railway.app/testapi/webhook/user
+	@GetMapping("/user")
 	public ResponseEntity<UserResponseDto> getAge() {
 		logger.info("Entered into OptionList method in controller");
 		List<UserDto> userDtoList = new ArrayList<>();
@@ -50,7 +51,7 @@ private static final Logger logger = LoggerFactory.getLogger(TestAPIController.c
 	}
 	
 	//http://localhost:8085/testapi/webhook
-	@PostMapping
+	@PostMapping("/telegram")
 	public ResponseEntity<String> receiveSignal(@RequestBody String payload) {
 
 		try {
